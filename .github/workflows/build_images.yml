@@ -44,24 +44,20 @@ jobs:
         id: toolchain_build
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: build toolchain image
         uses: docker/build-push-action@v2
         if: steps.toolchain_build.outputs.value != '0'
         with:
           context: docker/toolchain/
-          tags: techknowlogick/xgo:toolchain
+          tags: ttl.sh/techknowlogick/xgo:toolchain
           push: true
           file: docker/toolchain/Dockerfile
       - name: build golang ${{ steps.golang_version_1.outputs.value }} image base
         uses: docker/build-push-action@v2
         with:
           context: docker/${{ steps.golang_version_1.outputs.value }}/
-          tags: techknowlogick/xgo:${{ steps.golang_version_1.outputs.value }}-base
+          tags: ttl.sh/techknowlogick/xgo:${{ steps.golang_version_1.outputs.value }}-base
           push: true
           file: docker/${{ steps.golang_version_1.outputs.value }}/Dockerfile
           build-contexts: |
@@ -70,7 +66,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          tags: techknowlogick/xgo:${{ steps.golang_version_1.outputs.value }},techknowlogick/xgo:${{ steps.golang_version_1.outputs.wildcard }}
+          tags: ttl.sh/techknowlogick/xgo:${{ steps.golang_version_1.outputs.value }},techknowlogick/xgo:${{ steps.golang_version_1.outputs.wildcard }}
           push: true
           build-args: |
             VERSION=${{ steps.golang_version_1.outputs.value }}
@@ -81,7 +77,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: docker/${{ steps.golang_version_2.outputs.value }}/
-          tags: techknowlogick/xgo:${{ steps.golang_version_2.outputs.value }}-base
+          tags: ttl.sh/techknowlogick/xgo:${{ steps.golang_version_2.outputs.value }}-base
           push: true
           file: docker/${{ steps.golang_version_2.outputs.value }}/Dockerfile
           build-contexts: |
@@ -90,7 +86,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          tags: techknowlogick/xgo:${{ steps.golang_version_2.outputs.value }},techknowlogick/xgo:${{ steps.golang_version_2.outputs.wildcard }}
+          tags: ttl.sh/techknowlogick/xgo:${{ steps.golang_version_2.outputs.value }},techknowlogick/xgo:${{ steps.golang_version_2.outputs.wildcard }}
           push: true
           build-args: |
             VERSION=${{ steps.golang_version_2.outputs.value }}
@@ -101,6 +97,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: docker/go-latest/
-          tags: techknowlogick/xgo:latest
+          tags: ttl.sh/techknowlogick/xgo:latest
           push: true
           file: docker/go-latest/Dockerfile
