@@ -1,3 +1,5 @@
+Temporary fork for testing CI
+
 # xgo - Go CGO cross compiler
 
 Although Go strives to be a cross platform language, cross compilation from one
